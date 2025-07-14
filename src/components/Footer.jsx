@@ -34,9 +34,29 @@ function Footer() {
           <div className="col-md-3">
             <h5 className="text-warning">Contact Us</h5>
             <ul className="list-unstyled">
-              <li>Email: ShopKar@gmail.com</li>
-              <li>Phone: +91 123456789</li>
-              <li>Address: 123 Main St, Nanded, India</li>
+              <li><i className="bi bi-envelope-fill me-2"></i> <a href="mailto:patanjunaid7888@gmail.com" className="text-white text-decoration-none">patanjunaid7888@gmail.com</a></li>
+              <li>
+                <i className="bi bi-github me-2"></i>
+                <a
+                  href="https://github.com/junaidkhan1723"
+                  className="text-white text-decoration-none"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <i className="bi bi-linkedin me-2"></i>
+                <a
+                  href="https://www.linkedin.com/in/junaidkhan1723" // Replace with actual if needed
+                  className="text-white text-decoration-none"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  LinkedIn
+                </a>
+              </li>
             </ul>
           </div>
         </div>

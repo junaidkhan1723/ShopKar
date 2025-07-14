@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -10,6 +10,29 @@ function Nav({ cart }) {
   const [showModal, setShowModal] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "" });
+  const [isNavbarHidden, setIsNavbarHidden] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const lastScrollY = useRef(0);
+  const location = useLocation();
+
+  // Hide/Show navbar on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsNavbarHidden(currentScrollY > lastScrollY.current && currentScrollY > 100);
+      lastScrollY.current = currentScrollY;
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close navbar collapse on link click
+  useEffect(() => {
+    const collapse = document.querySelector(".navbar-collapse");
+    if (collapse?.classList.contains("show")) {
+      collapse.classList.remove("show");
+    }
+  }, [location]);
 
   const handleLoginClick = () => setShowModal(true);
   const handleCloseModal = () => {
@@ -26,35 +49,59 @@ function Nav({ cart }) {
         email: formData.email,
       });
       handleCloseModal();
-      toast.success('Logged in successfully!')
+      toast.success("Logged in successfully!");
     }
   };
+
+  useEffect(() => {
+  setIsNavOpen(false); // close hamburger on route change
+}, [location]);
 
   const userInitial = user?.name.charAt(0).toUpperCase();
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light shadow sticky-top">
+      <nav
+        className={`navbar navbar-expand-lg navbar-light bg-light shadow sticky-top transition-navbar ${
+          isNavbarHidden ? "hide-navbar" : ""
+        }`}
+      >
         <div className="container-fluid px-4">
           <Link className="navbar-brand fw-bold text-primary" to="/">
             Shop<span className="text-warning">Kar</span>
           </Link>
 
           <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+
+  className={`navbar-toggler ${isNavOpen ? "open" : ""}`}
+  type="button"
+  data-bs-toggle="collapse"
+  data-bs-target="#navbarNav"
+  onClick={() => setIsNavOpen(!isNavOpen)}
+  aria-label="Toggle navigation"
+>
+  <div className="animated-toggler">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</button>
+
 
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/Products">Products</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/Contact">Contact</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/Features">Features</Link></li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Products">Products</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Contact">Contact</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Features">Features</Link>
+              </li>
             </ul>
 
             <div className="d-flex align-items-center gap-3">
@@ -62,13 +109,11 @@ function Nav({ cart }) {
                 <div className="dropdown">
                   <button
                     className="btn btn-outline-secondary rounded-circle"
-                    id="userDropdown"
                     data-bs-toggle="dropdown"
-                    aria-expanded="false"
                   >
                     {userInitial}
                   </button>
-                  <ul className="dropdown-menu dropdown-menu-start dropdown-menu-lg-end">
+                  <ul className="dropdown-menu dropdown-menu-end">
                     <li className="dropdown-item"><strong>Name:</strong> {user.name}</li>
                     <li className="dropdown-item"><strong>Email:</strong> {user.email}</li>
                     <li><hr className="dropdown-divider" /></li>
@@ -86,7 +131,7 @@ function Nav({ cart }) {
               <Link to="/Carts" className="btn btn-outline-success position-relative">
                 <i className="bi bi-cart"></i>
                 {cart.length > 0 && (
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  <span className="position-absolute top-0 start-100 translate-middle badge bg-danger">
                     {cart.length}
                   </span>
                 )}
@@ -137,10 +182,7 @@ function Nav({ cart }) {
               <div className="modal-footer border-0 text-center">
                 <small>
                   {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
-                  <button
-                    className="btn btn-link p-0"
-                    onClick={() => setIsSignup(!isSignup)}
-                  >
+                  <button className="btn btn-link p-0" onClick={() => setIsSignup(!isSignup)}>
                     {isSignup ? "Login" : "Sign Up"}
                   </button>
                 </small>
