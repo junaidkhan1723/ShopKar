@@ -106,14 +106,14 @@ function Nav({ cart }) {
 
             <div className="d-flex align-items-center gap-3">
               {user ? (
-                <div className="dropdown">
+                <div className="dropdown ">
                   <button
                     className="btn btn-outline-secondary rounded-circle"
                     data-bs-toggle="dropdown"
                   >
                     {userInitial}
                   </button>
-                  <ul className="dropdown-menu dropdown-menu-end">
+                  <ul className="dropdown-menu dropdown-menu-start dropdown-menu-lg-end">
                     <li className="dropdown-item"><strong>Name:</strong> {user.name}</li>
                     <li className="dropdown-item"><strong>Email:</strong> {user.email}</li>
                     <li><hr className="dropdown-divider" /></li>
