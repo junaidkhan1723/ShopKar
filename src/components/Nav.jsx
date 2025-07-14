@@ -12,26 +12,32 @@ function Nav({ cart }) {
   const [formData, setFormData] = useState({ name: "", email: "" });
   const [isNavbarHidden, setIsNavbarHidden] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const lastScrollY = useRef(0);
+  const lastScrollY = useRef(window.scrollY);
   const location = useLocation();
 
-  // Hide/Show navbar on scroll
+  // Navbar hide/show on scroll
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setIsNavbarHidden(currentScrollY > lastScrollY.current && currentScrollY > 100);
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setIsNavbarHidden(true);
+      } else {
+        setIsNavbarHidden(false);
+      }
       lastScrollY.current = currentScrollY;
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close navbar collapse on link click
+  // Close navbar collapse on route change
   useEffect(() => {
     const collapse = document.querySelector(".navbar-collapse");
     if (collapse?.classList.contains("show")) {
       collapse.classList.remove("show");
     }
+    setIsNavOpen(false); // reset animation state
   }, [location]);
 
   const handleLoginClick = () => setShowModal(true);
@@ -53,16 +59,12 @@ function Nav({ cart }) {
     }
   };
 
-  useEffect(() => {
-  setIsNavOpen(false); // close hamburger on route change
-}, [location]);
-
   const userInitial = user?.name.charAt(0).toUpperCase();
 
   return (
     <>
       <nav
-        className={`navbar navbar-expand-lg navbar-light bg-light shadow sticky-top transition-navbar ${
+        className={`navbar navbar-expand-lg shadow navbar-light bg-light fixed-top transition-navbar ${
           isNavbarHidden ? "hide-navbar" : ""
         }`}
       >
@@ -72,21 +74,19 @@ function Nav({ cart }) {
           </Link>
 
           <button
-
-  className={`navbar-toggler ${isNavOpen ? "open" : ""}`}
-  type="button"
-  data-bs-toggle="collapse"
-  data-bs-target="#navbarNav"
-  onClick={() => setIsNavOpen(!isNavOpen)}
-  aria-label="Toggle navigation"
->
-  <div className="animated-toggler">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</button>
-
+            className={`navbar-toggler ${isNavOpen ? "open" : ""}`}
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            onClick={() => setIsNavOpen(!isNavOpen)}
+            aria-label="Toggle navigation"
+          >
+            <div className="animated-toggler">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
 
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">

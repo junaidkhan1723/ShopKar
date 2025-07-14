@@ -1,3 +1,8 @@
+
+body {
+  padding-top: 2.5rem; /* adjust depending on navbar height */
+}
+
 .cart-count {
   position: absolute;
   top: -8px;
@@ -83,4 +88,14 @@
 
 .navbar-toggler.open .animated-toggler span:nth-child(3) {
   transform: rotate(-45deg) translateY(-9px);
+}
+
+/* Navbar  */
+.transition-navbar {
+  transition: top 0.3s ease-in-out;
+}
+
+.hide-navbar {
+  top: -80px; /* or adjust depending on navbar height */
+  position: fixed !important;
 }
