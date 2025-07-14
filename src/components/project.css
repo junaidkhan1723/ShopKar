@@ -1,0 +1,46 @@
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #1a73e8;
+  color: white;
+  font-size: 0.7rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyCart {
+  color: white;
+  text-align: center;
+  font-size: 1.4em;
+  font-weight: 600;
+  padding: 3em 2em;
+  background-color: #2563eb;
+  margin: 0.8em 2em;
+  margin-bottom: 2em;
+  border-radius: 0.5em;
+}
+
+.catCard {
+  transition: transform 0.2s ease;
+   
+}
+
+
+.catCard:hover {
+  color: white;
+  background-color:#2563eb;
+  transform: translateY(-5px);
+}
+
+.nav-item{
+   transition: transform 0.2s ease;
+}
+
+.nav-item:hover{
+   transform: translateY(-3px);
+}
