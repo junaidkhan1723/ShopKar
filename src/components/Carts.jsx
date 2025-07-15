@@ -61,7 +61,7 @@ function Carts({ cart, deleteCartItem, addToCart, decreaseQty, setCart }) {
 </div>
         </>
       ) : (
-        <div className="alert alert-info text-center p-5 fs-3">Your Cart is Empty 🥹</div>
+        <div className="alert alert-info text-center p-5 fs-3">Your Cart is Empty <i className="bi bi-bag-x-fill"></i></div>
       )}
     </div>
   );
