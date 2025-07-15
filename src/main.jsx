@@ -69,7 +69,6 @@ const deleteCartItem = (itemToDelete) => {
   toast.info(`${itemToDelete.title} removed from cart!`);
 };
 
-// stop single item to add multiple times in cart
 const decreaseQty = (itemToUpdate) => {
   setCart((prevCart) =>
     prevCart
